@@ -1,0 +1,701 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/songs/{id}": {
+      "put": {
+        "tags": [
+          "Song"
+        ],
+        "operationId": "SongsController_UpdateSong",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Song"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Song Updated Successfully"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Song"
+        ],
+        "operationId": "SongsController_GetSong",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Song"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Song"
+        ],
+        "operationId": "SongsController_Delete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Song deleted successfully"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/songs": {
+      "get": {
+        "tags": [
+          "Song"
+        ],
+        "operationId": "SongsController_GetSongs",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrderDirection"
+          },
+          {
+            "$ref": "#/components/parameters/OrderBy"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Offset"
+          },
+          {
+            "$ref": "#/components/parameters/Year"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Song"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Song"
+        ],
+        "operationId": "SongsController_CreateSong",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Song"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Song created successfully"
+          },
+          "409": {
+            "description": "Song ID already exists"
+          }
+        }
+      }
+    },
+    "/artists/id={id}/songs": {
+      "get": {
+        "tags": [
+          "Artist"
+        ],
+        "operationId": "ArtistsController_GetArtistSongsById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Song"
+                  }
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Song"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Artist"
+        ],
+        "operationId": "ArtistsController_DeleteArtistSongsById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Songs deleted successfully"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/artists/name={name}/songs": {
+      "get": {
+        "tags": [
+          "Artist"
+        ],
+        "operationId": "ArtistsController_GetArtistSongsByName",
+        "parameters": [
+          {
+            "name": "name",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Songs from artist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Song"
+                    },
+                    {
+                      "$ref": "#/components/schemas/Artist"
+                    }
+                  ]
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "array",
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Song"
+                    },
+                    {
+                      "$ref": "#/components/schemas/Artist"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Artist"
+        ],
+        "operationId": "ArtistsController_DeleteArtistSongsByName",
+        "parameters": [
+          {
+            "name": "name",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of artist with the same name",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Artist"
+                  }
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Artist"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Songs deleted successfully"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/artists/id={id}/summary": {
+      "get": {
+        "tags": [
+          "Artist"
+        ],
+        "operationId": "ArtistsController_GetArtistSummaryByID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Artist summary",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": object,
+                  "properties": {
+                    "number of songs": {
+                      "type": "integer"
+                    },
+                    "earliest song": {
+                      "$ref": "#/components/schemas/Song"
+                    },
+                    "latest song": {
+                      "$ref": "#/components/schemas/Song"
+                    },
+                    "most popular song": {
+                      "$ref": "#/components/schemas/Song"
+                    }
+                  }
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": object,
+                  "properties": {
+                    "number of songs": {
+                      "type": "integer"
+                    },
+                    "earliest song": {
+                      "$ref": "#/components/schemas/Song"
+                    },
+                    "latest song": {
+                      "$ref": "#/components/schemas/Song"
+                    },
+                    "most popular song": {
+                      "$ref": "#/components/schemas/Song"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+           "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/artists/name={name}/summary": {
+      "get": {
+        "tags": [
+          "Artist"
+        ],
+        "operationId": "ArtistsController_GetArtistSummaryByName",
+        "parameters": [
+          {
+            "name": "name",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of artists with the same name",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "oneOf": [
+                    {
+                        "type": object,
+                        "properties": {
+                          "number of songs": {
+                            "type": "integer"
+                          },
+                          "earliest song": {
+                            "$ref": "#/components/schemas/Song"
+                          },
+                          "latest song": {
+                            "$ref": "#/components/schemas/Song"
+                          },
+                          "most popular song": {
+                            "$ref": "#/components/schemas/Song"
+                          }
+                        }
+                    },
+                    {
+                      "$ref": "#/components/schemas/Artist"
+                    }
+                  ]
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "array",
+                  "oneOf": [
+                    {
+                        "type": object,
+                        "properties": {
+                          "number of songs": {
+                            "type": "integer"
+                          },
+                          "earliest song": {
+                            "$ref": "#/components/schemas/Song"
+                          },
+                          "latest song": {
+                            "$ref": "#/components/schemas/Song"
+                          },
+                          "most popular song": {
+                            "$ref": "#/components/schemas/Song"
+                          }
+                        }
+                    },
+                    {
+                      "$ref": "#/components/schemas/Artist"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "Web Engineering REST API Design",
+    "description": "The API Specification for the Web Engineering project",
+    "version": "1.0",
+    "contact": {}
+  },
+  "servers": [
+    {
+      "description": "Future backend implementation",
+      "url": "http://localhost:3000"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Song": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "popularity": {
+            "type": "integer"
+          },
+          "releaseDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "artistInfo": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Artist"
+            }
+          }
+        }
+      },
+      "Artist": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "songs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Song"
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "OrderDirection": {
+        "name": "orderDir",
+        "in": "query",
+        "required": false,
+        "description": "The direction to order the indicated column",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "desc",
+            "asc"
+          ],
+          "default": "desc"
+        }
+      },
+      "OrderBy": {
+        "name": "orderBy",
+        "in": "query",
+        "required": false,
+        "description": "The column to order the result data by",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "popularity",
+            "releaseDate"
+          ],
+          "default": "popularity"
+        }
+      },
+      "Limit": {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "description": "Number of returned items per page",
+        "schema": {
+          "type": "integer",
+          "enum": [
+            10,
+            20,
+            50,
+            100
+          ],
+          "default": 10
+        }
+      },
+      "Offset": {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "description": "The number of items to omit before returning {limit} items.",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "Year": {
+        "name": "year",
+        "in": "query",
+        "required": false,
+        "description": "Filtering the results by year.",
+        "schema": {
+          "type": "integer"
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Request was not well-formed, see error details",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error-message": {
+                  "type": "string",
+                  "description": "Error message detailing the problem with the request"
+                }
+              }
+            }
+          },
+          "text/csv": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error-message": {
+                  "type": "string",
+                  "description": "Error message detailing the problem with the request"
+                }
+              }
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error-message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "text/csv": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error-message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "NoResults": {
+        "description": "List empty; no results",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error-message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "text/csv": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error-message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "Server error; no results, try again later",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error-message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "text/csv": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error-message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

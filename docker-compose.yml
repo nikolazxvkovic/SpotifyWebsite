@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+    dev-db:
+        image: postgres:13
+        ports:
+          - 5432:5432
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: 6969
+          POSTGRES_DB: nest
+        networks:
+          - webiches
+        volumes:
+          - ./postgres-data:/var/lib/postgresql/data
+    backend:
+        depends_on:
+          - dev-db
+        environment:
+          - postgresql://postgres:6969@dev-db:5432/nest?schema=public
+        ports:
+          - 3000:3000
+        build:
+          context: .
+          dockerfile: backend.Dockerfile
+        networks:
+          - webiches
+        links:
+          - dev-db
+    frontend:
+        ports:
+          - 5173:5173
+        build:
+          context: .
+          dockerfile: frontend.Dockerfile
+        networks:
+          - webiches
+        links:
+          - backend
+
+networks:
+  webiches:
