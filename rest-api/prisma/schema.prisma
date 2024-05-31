@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+//generator client {
+//  provider = "prisma-client-js"
+//}
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x", "linux-musl"]
+  output   = "./generated/prisma-client-js"
+}
+
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Song {
+    id String @id
+    name String
+    popularity Int
+    releaseDate DateTime @db.Date
+    artistsInfo Artist[]
+}
+
+
+model Artist {
+    id String @id
+    name String
+    songs Song[]
+}
+
+
+
